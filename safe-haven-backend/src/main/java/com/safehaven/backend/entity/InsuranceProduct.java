@@ -46,5 +46,4 @@ public class InsuranceProduct
     // mappedBy  should have the same name with the field name in Cover class
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Cover> covers = new ArrayList<>();
-
 }

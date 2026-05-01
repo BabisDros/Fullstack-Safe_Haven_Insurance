@@ -8,7 +8,8 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 
-@Getter @Setter
+@Getter
+@Setter
 public class InsuranceProductCreateDto
 {
     @NotBlank(message = "Name is required")

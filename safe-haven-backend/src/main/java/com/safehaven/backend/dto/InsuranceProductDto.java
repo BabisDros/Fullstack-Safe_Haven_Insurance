@@ -15,7 +15,7 @@ import java.time.Instant;
 public class InsuranceProductDto
 {
     private Long id;
-//    private String normalizedName;
+    //    private String normalizedName;
     private String name;
     private String type;
     private String description;

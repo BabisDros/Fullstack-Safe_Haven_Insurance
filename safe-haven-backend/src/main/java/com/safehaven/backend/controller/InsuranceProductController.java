@@ -21,13 +21,13 @@ public class InsuranceProductController
     public ResponseEntity<InsuranceProductDto> createInsuranceProduct(@RequestBody InsuranceProductDto productDto)
     {
         InsuranceProductDto savedInsuranceProduct = productService.createInsuranceProduct(productDto);
-        return  new ResponseEntity<>(savedInsuranceProduct, HttpStatus.CREATED);
+        return new ResponseEntity<>(savedInsuranceProduct, HttpStatus.CREATED);
     }
 
     @GetMapping
-    public  ResponseEntity<List<InsuranceProductDto>> getAllInsuranceProducts()
+    public ResponseEntity<List<InsuranceProductDto>> getAllInsuranceProducts()
     {
-        List<InsuranceProductDto> products= productService.getAllInsuranceProducts();
+        List<InsuranceProductDto> products = productService.getAllInsuranceProducts();
         return ResponseEntity.ok(products);
     }
 
@@ -37,20 +37,20 @@ public class InsuranceProductController
     public ResponseEntity<InsuranceProductDto> getInsuranceProduct(@PathVariable("id") Long id)
     {
         InsuranceProductDto product = productService.getProductById(id);
-        return  ResponseEntity.ok(product);
+        return ResponseEntity.ok(product);
     }
 
     @PutMapping("{id}")
     public ResponseEntity<InsuranceProductDto> updateProduct(@PathVariable("id") Long id, @RequestBody InsuranceProductDto productWithUpdates)
     {
         InsuranceProductDto product = productService.updateInsuranceProduct(id, productWithUpdates);
-        return  ResponseEntity.ok(product);
+        return ResponseEntity.ok(product);
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity<String> deleteInsuranceProduct(@PathVariable("id") Long id)
     {
         productService.deleteInsuranceProduct(id);
-        return  ResponseEntity.ok("Product deleted Successfully");
+        return ResponseEntity.ok("Product deleted Successfully");
     }
 }
