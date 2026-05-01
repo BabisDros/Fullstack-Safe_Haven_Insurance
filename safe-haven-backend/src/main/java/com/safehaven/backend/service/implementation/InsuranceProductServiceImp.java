@@ -64,6 +64,14 @@ public class InsuranceProductServiceImp implements InsuranceProductService
         return InsuranceProductMapper.mapInsuranceProductToDto(updatedProduct);
     }
 
+    @Override
+    public void deleteInsuranceProduct(Long id)
+    {
+        productRepository.findById(id).orElseThrow( ()->new ResourceNotFoundException("product not found with given id"));
+
+        productRepository.deleteById(id);
+    }
+
     private String validateProductName(String name)
     {
         String normalizedName = NameNormalizer.normalizeName(name);

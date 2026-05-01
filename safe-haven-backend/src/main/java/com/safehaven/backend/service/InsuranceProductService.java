@@ -13,5 +13,6 @@ public interface InsuranceProductService
     InsuranceProductDto getProductById(Long id);
 
     InsuranceProductDto updateInsuranceProduct(Long id, InsuranceProductDto updatedProduct);
-
+    
+    void deleteInsuranceProduct(Long id);
 }

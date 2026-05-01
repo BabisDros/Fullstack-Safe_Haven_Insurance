@@ -46,4 +46,11 @@ public class InsuranceProductController
         InsuranceProductDto product = productService.updateInsuranceProduct(id, productWithUpdates);
         return  ResponseEntity.ok(product);
     }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<String> deleteInsuranceProduct(@PathVariable("id") Long id)
+    {
+        productService.deleteInsuranceProduct(id);
+        return  ResponseEntity.ok("Product deleted Successfully");
+    }
 }
