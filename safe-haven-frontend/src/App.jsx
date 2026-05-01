@@ -1,9 +1,10 @@
 import './App.css'
-import HelloWorld from './HelloWorld'
+import ListInsuranceProductComponent from './components/ListInsuranceProductComponent'
+
 function App() {
   return (
     <>
-      <HelloWorld />
+      <ListInsuranceProductComponent/>
     </>
   )
 }
