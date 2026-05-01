@@ -10,7 +10,8 @@ public interface InsuranceProductService
 
     InsuranceProductDto createInsuranceProduct(InsuranceProductDto insuranceProductDto);
 
-    InsuranceProductDto getProductById(long id);
+    InsuranceProductDto getProductById(Long id);
 
-    InsuranceProductDto updateInsuranceProduct(long id, InsuranceProductDto updatedProduct);
+    InsuranceProductDto updateInsuranceProduct(Long id, InsuranceProductDto updatedProduct);
+
 }

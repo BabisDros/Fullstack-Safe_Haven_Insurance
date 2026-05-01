@@ -43,7 +43,7 @@ public class InsuranceProductServiceImp implements InsuranceProductService
     }
 
     @Override
-    public InsuranceProductDto getProductById(long id)
+    public InsuranceProductDto getProductById(Long id)
     {
         //it may
         InsuranceProduct product= productRepository.findById(id).
@@ -52,7 +52,7 @@ public class InsuranceProductServiceImp implements InsuranceProductService
     }
 
     @Override
-    public InsuranceProductDto updateInsuranceProduct(long id, InsuranceProductDto productWithUpdates)
+    public InsuranceProductDto updateInsuranceProduct(Long id, InsuranceProductDto productWithUpdates)
     {
         InsuranceProduct product = productRepository.findById(id).
                 orElseThrow( ()->new ResourceNotFoundException("product not found with given id"));

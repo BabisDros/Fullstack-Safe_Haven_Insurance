@@ -34,14 +34,14 @@ public class InsuranceProductController
 
     //Build Get InsuranceProduct REST API
     @GetMapping("{id}")
-    public ResponseEntity<InsuranceProductDto> getInsuranceProduct(@PathVariable("id") long id)
+    public ResponseEntity<InsuranceProductDto> getInsuranceProduct(@PathVariable("id") Long id)
     {
         InsuranceProductDto product = productService.getProductById(id);
         return  ResponseEntity.ok(product);
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<InsuranceProductDto> updateProduct(@PathVariable("id") long id, @RequestBody InsuranceProductDto productWithUpdates)
+    public ResponseEntity<InsuranceProductDto> updateProduct(@PathVariable("id") Long id, @RequestBody InsuranceProductDto productWithUpdates)
     {
         InsuranceProductDto product = productService.updateInsuranceProduct(id, productWithUpdates);
         return  ResponseEntity.ok(product);
