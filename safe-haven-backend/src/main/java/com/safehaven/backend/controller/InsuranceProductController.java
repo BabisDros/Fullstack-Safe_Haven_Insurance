@@ -1,6 +1,7 @@
 package com.safehaven.backend.controller;
 
 import com.safehaven.backend.dto.InsuranceProductDto;
+import com.safehaven.backend.entity.ProductType;
 import com.safehaven.backend.service.InsuranceProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -52,5 +53,10 @@ public class InsuranceProductController
     {
         productService.deleteInsuranceProduct(id);
         return ResponseEntity.ok("Product deleted Successfully");
+    }
+
+    @GetMapping("types")
+    public ResponseEntity<ProductType[]> getProductTypes() {
+        return ResponseEntity.ok(ProductType.values());
     }
 }

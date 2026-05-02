@@ -1,18 +1,22 @@
 package com.safehaven.backend.entity;
 
-public enum ProductType
-{
-    LIFE, HOME, TRAVEL,AUTO;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
-    @Override
-    public String toString()
+@Getter
+@AllArgsConstructor
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
+public enum ProductType {
+    LIFE("Life insurance"),
+    HOME("Home insurance"),
+    TRAVEL("Travel Insurance"),
+    AUTO("Car insurance");
+
+    private final String label;
+
+    public String getValue()
     {
-        return switch (this)
-        {
-            case LIFE -> "Life insurance";
-            case HOME -> "Home insurance";
-            case TRAVEL -> "Travel Insurance";
-            case AUTO -> "Car insurance";
-        };
+        return name();
     }
 }
