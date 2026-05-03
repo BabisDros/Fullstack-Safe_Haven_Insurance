@@ -6,9 +6,11 @@ import {
   deleteInsuranceProduct,
 } from "../services/InsuranceProductService";
 
-import InsuranceProductModal from "./InsuranceProductModal";
+import GenericFormModal from "./GenericFormModal";
 import ConfirmationModal from "./ConfirmationModal";
 import { useNavigate } from "react-router-dom";
+import GenericList from "./GenericList";
+import { typesOfInsuranceProducts } from "../services/InsuranceProductService";
 
 const dummyInsuranceProducts = [
   {
@@ -30,6 +32,8 @@ const dummyInsuranceProducts = [
 ];
 
 const ListInsuranceProductComponent = () => {
+  const useMockData = false; // change to false to use real API data
+
   const [insuranceProducts, setInsuranceProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -37,8 +41,11 @@ const ListInsuranceProductComponent = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
 
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+  const [productTypes, setProductTypes] = useState([]);
 
   const navigator = useNavigate();
+
+  //============== Handlers Start=================
 
   const handleViewDetails = (product) => {
     navigator(`/insurance-products/${product.id}`);
@@ -99,8 +106,9 @@ const ListInsuranceProductComponent = () => {
       });
     setIsConfirmModalOpen(false);
   };
+  //============== Handlers End=================
 
-  const useMockData = false;
+  //============== useEffect Start=================
 
   {
     /* https://www.dhiwise.com/post/ultimate-guide-to-using-react-cleartimeout-in-applications */
@@ -125,100 +133,88 @@ const ListInsuranceProductComponent = () => {
     }
   }, [useMockData]);
 
+  useEffect(() => {
+    typesOfInsuranceProducts()
+      .then((response) => setProductTypes(response.data))
+      .catch((error) => console.error("Error fetching product types:", error));
+  }, []);
+
+  //============== useEffect End=================
+
+  //  'name' should match DTO name else getting error.
+  const productFormFields = [
+    { name: "name", label: "Name", type: "text", required: true },
+    {
+      name: "type",
+      label: "Type",
+      type: "select",
+      options: productTypes,
+      required: true,
+    },
+    {
+      name: "description",
+      label: "Description",
+      type: "textarea",
+      maxLength: 255,
+    },
+    {
+      name: "basePremium",
+      label: "Base Premium",
+      type: "number",
+      step: "0.01",
+      min: "0.01",
+      required: true,
+    },
+    {
+      name: "active",
+      label: "Active Product",
+      type: "checkbox",
+      defaultValue: true,
+    },
+  ];
+
   return (
-    <main className="container mt-5">
-      <header className="d-flex justify-content-between mb-4">
-        <h2>Insurance Products</h2>
-        <button className="btn btn-primary" onClick={handleAddNew}>
-          + Add New
-        </button>
-      </header>
-
-      {loading ? (
-        <div className="text-center mt-5">
-          <div className="spinner-border text-primary" role="status">
-            <span className="visually-hidden">Loading...</span>
+    <main>
+      <GenericList
+        title="Insurance Products"
+        items={insuranceProducts}
+        loading={loading}
+        emptyMessage="No products found."
+        onAddNew={handleAddNew}
+        onEdit={handleEdit}
+        onDelete={handleDeleteClick}
+        onViewDetails={handleViewDetails}
+        renderItemDetails={(product) => (
+          <div>
+            <h3 className="h6 fw-bold mb-0">{product.name}</h3>
+            <p className={product.active ? "text-success" : "text-danger"}>
+              {product.active ? "Active" : "Inactive"}
+            </p>
+            <div>Base Premium: €{product.basePremium.toFixed(2)}</div>
           </div>
-        </div>
-      ) : insuranceProducts.length > 0 ? (
-        <ul className="list-unstyled d-grid gap-2">
-          {insuranceProducts.map((product) => (
-            <li key={product.id} className="border rounded p-3 bg-light">
-              <div className="d-flex justify-content-between align-items-center">
-                <div>
-                  <h3 className="h6 fw-bold mb-0">{product.name}</h3>
-                  <p
-                    className={`mb-0 ${product.active ? "text-success" : "text-danger"}`}
-                  >
-                    {product.active ? "Active" : "Inactive"}
-                  </p>
-                </div>
+        )}
+      />
 
-                <div className="d-flex align-items-center">
-                  <data className="fw-bold me-3" value={product.basePremium}>
-                    ${product.basePremium}
-                  </data>
-
-                  <div className="dropdown">
-                    <button
-                      className="btn btn-secondary btn-sm dropdown-toggle"
-                      type="button"
-                      id={`dropdownMenu-${product.id}`}
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                    >
-                      Options
-                    </button>
-                    <ul
-                      className="dropdown-menu dropdown-menu-end"
-                      aria-labelledby={`dropdownMenu-${product.id}`}
-                    >
-                      <li>
-                        <button
-                          className="dropdown-item"
-                          onClick={() => handleViewDetails(product)}
-                        >
-                          View Details
-                        </button>
-                      </li>
-                      <li>
-                        <button
-                          className="dropdown-item"
-                          onClick={() => handleEdit(product)}
-                        >
-                          Edit
-                        </button>
-                      </li>
-                      <li>
-                        <button
-                          className="dropdown-item text-danger"
-                          onClick={() => handleDeleteClick(product)}
-                        >
-                          Delete
-                        </button>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <div className="alert alert-info text-center" role="alert">
-          No insurance products found. Click "+ Add New" to create one.
-        </div>
-      )}
       {isProductModalOpen && (
-        <InsuranceProductModal
-          // creat new modal key to reset state. https://react.dev/learn/preserving-and-resetting-state
-          key={selectedProduct ? selectedProduct.id : "new_product"}
+        //adding key to resete state. https://react.dev/learn/preserving-and-resetting-state
+        <GenericFormModal
+          key={
+            //Using prefix because covers and products can have the same id .
+
+            selectedProduct ? `product-${selectedProduct.id}` : "new_product"
+          }
           show={isProductModalOpen}
-          handleClose={() => setIsProductModalOpen(false)}
-          product={selectedProduct}
+          title={
+            selectedProduct ? "Edit Insurance Product" : "Add Insurance Product"
+          }
+          initialData={selectedProduct}
+          fields={productFormFields}
+          onClose={() => setIsProductModalOpen(false)}
           onSave={handleSave}
+          submitText={selectedProduct ? "Update Product" : "Save Product"}
         />
       )}
+
       {isConfirmModalOpen && (
         <ConfirmationModal
           show={isConfirmModalOpen}
