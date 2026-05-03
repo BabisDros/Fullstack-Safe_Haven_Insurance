@@ -10,15 +10,15 @@ import com.safehaven.backend.repository.CoverRepository;
 import com.safehaven.backend.repository.InsuranceProductRepository;
 import com.safehaven.backend.service.CoverService;
 import com.safehaven.backend.utilities.NameNormalizer;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class CoverServiceImpl implements CoverService
 {
-    private CoverRepository coverRepository;
-    private InsuranceProductRepository insuranceProductRepository;
+    private final CoverRepository coverRepository;
+    private final InsuranceProductRepository insuranceProductRepository;
 
     @Override
     public CoverDto createCover(CoverDto coverDto)

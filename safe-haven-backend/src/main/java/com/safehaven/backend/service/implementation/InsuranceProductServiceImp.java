@@ -8,17 +8,17 @@ import com.safehaven.backend.mapper.InsuranceProductMapper;
 import com.safehaven.backend.repository.InsuranceProductRepository;
 import com.safehaven.backend.service.InsuranceProductService;
 import com.safehaven.backend.utilities.NameNormalizer;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class InsuranceProductServiceImp implements InsuranceProductService
 {
-    private InsuranceProductRepository productRepository;
+    private final InsuranceProductRepository productRepository;
 
     @Override
     public List<InsuranceProductDto> getAllInsuranceProducts()
