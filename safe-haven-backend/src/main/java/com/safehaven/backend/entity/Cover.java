@@ -24,11 +24,11 @@ public class Cover
     private String name;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "cover_type", nullable = false)
+    @Column(name = "type", nullable = false)
     private CoverType type;
 
     @Column(name = "coverage_limit", nullable = false, columnDefinition = "DECIMAL(10,2) CHECK (coverage_limit > 0)")
-    private BigDecimal coverageLimit;
+    private BigDecimal limit;
 
     private String description;
 

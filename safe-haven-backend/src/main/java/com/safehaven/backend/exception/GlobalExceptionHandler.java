@@ -12,8 +12,8 @@ import java.time.Instant;
 @RestControllerAdvice
 public class GlobalExceptionHandler
 {
-    @ExceptionHandler(DuplicateProductNameException.class)
-    public ResponseEntity<ErrorDetailsDto> handleDuplicateProduct(DuplicateProductNameException ex, WebRequest request)
+    @ExceptionHandler(DuplicateNameException.class)
+    public ResponseEntity<ErrorDetailsDto> handleDuplicateName(DuplicateNameException ex, WebRequest request)
     {
         ErrorDetailsDto errorDetails = new ErrorDetailsDto(
                 Instant.now(),

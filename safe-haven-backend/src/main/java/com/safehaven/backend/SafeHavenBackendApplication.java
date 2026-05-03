@@ -12,7 +12,7 @@ public class SafeHavenBackendApplication {
     public static void main(String[] args) {
         SpringApplication.run(SafeHavenBackendApplication.class, args);
     }
-//TODO remove 
+//TODO remove
      @Bean
      public CommandLineRunner testEnumOutput() {
          return args -> {

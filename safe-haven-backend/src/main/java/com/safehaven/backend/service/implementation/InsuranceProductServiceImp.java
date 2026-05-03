@@ -2,7 +2,7 @@ package com.safehaven.backend.service.implementation;
 
 import com.safehaven.backend.dto.InsuranceProductDto;
 import com.safehaven.backend.entity.InsuranceProduct;
-import com.safehaven.backend.exception.DuplicateProductNameException;
+import com.safehaven.backend.exception.DuplicateNameException;
 import com.safehaven.backend.exception.ResourceNotFoundException;
 import com.safehaven.backend.mapper.InsuranceProductMapper;
 import com.safehaven.backend.repository.InsuranceProductRepository;
@@ -78,7 +78,7 @@ public class InsuranceProductServiceImp implements InsuranceProductService
         String normalizedName = NameNormalizer.normalizeName(name);
         if (productRepository.existsByNormalizedName(normalizedName))
         {
-            throw new DuplicateProductNameException("Product" + name + " already exist");
+            throw new DuplicateNameException("Product" + name + " already exist");
         }
         return normalizedName;
     }

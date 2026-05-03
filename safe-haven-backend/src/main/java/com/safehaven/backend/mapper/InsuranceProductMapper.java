@@ -15,7 +15,10 @@ public class InsuranceProductMapper
                 product.getDescription(),
                 product.getBasePremium(),
                 product.isActive(),
-                product.getCreationDatetime()
+                product.getCreationDatetime(),
+                product.getCovers().stream()
+                        .map(CoverMapper::mapToCoverDto)
+                        .toList()
         );
     }
 

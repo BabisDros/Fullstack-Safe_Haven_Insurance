@@ -6,22 +6,16 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.time.Instant;
-import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class InsuranceProductDto
-{
+public class CoverDto {
     private Long id;
     private String name;
     private String type;
+    private BigDecimal limit;
     private String description;
-    private BigDecimal basePremium;
-    private boolean active;
-    private Instant creationDatetime;
-    private List<CoverDto> covers;
+    private Long insuranceProductId;
 }
-
