@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 import {
   createInsuranceProduct,
   listInsuranceProducts,
@@ -71,21 +72,27 @@ const ListInsuranceProductComponent = () => {
           setInsuranceProducts((prev) =>
             prev.map((p) => (p.id === selectedProduct.id ? response.data : p)),
           );
+          setIsProductModalOpen(false);
         })
         .catch((error) => {
           console.error("Error updating product:", error);
+          const serverMessage = error.response?.data?.message;
+          toast.error(`Failed to update product: ${serverMessage}`);
         });
     } else {
       createInsuranceProduct(data)
         .then((response) => {
           console.log("Product created:", response.data);
           setInsuranceProducts((prev) => [...prev, response.data]);
+          setIsProductModalOpen(false);
         })
         .catch((error) => {
+          const serverMessage = error.response?.data?.message;
+          toast.error(`Failed to create product: ${serverMessage}`);
+
           console.error("Error creating product:", error);
         });
     }
-    setIsProductModalOpen(false);
   };
 
   const handleDeleteClick = (product) => {
@@ -103,6 +110,8 @@ const ListInsuranceProductComponent = () => {
       })
       .catch((error) => {
         console.error("Error deleting product: " + selectedProduct.id, error);
+        const serverMessage = error.response?.data?.message;
+        toast.error(`Failed to delete product: ${serverMessage}`);
       });
     setIsConfirmModalOpen(false);
   };
@@ -128,6 +137,8 @@ const ListInsuranceProductComponent = () => {
         })
         .catch((error) => {
           console.error("Error fetching insurance products from API:", error);
+          const serverMessage = error.response?.data?.message;
+          toast.error(`Failed to load insurance products: ${serverMessage}`);
           setLoading(false);
         });
     }
@@ -136,7 +147,11 @@ const ListInsuranceProductComponent = () => {
   useEffect(() => {
     typesOfInsuranceProducts()
       .then((response) => setProductTypes(response.data))
-      .catch((error) => console.error("Error fetching product types:", error));
+      .catch((error) => {
+        console.error("Error fetching product types:", error);
+        const serverMessage = error.response?.data?.message;
+        toast.error(`Failed to load product types: ${serverMessage}`);
+      });
   }, []);
 
   //============== useEffect End=================

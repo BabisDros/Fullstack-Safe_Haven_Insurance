@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 import { useParams, useNavigate } from "react-router-dom";
 import { getInsuranceProductById } from "../services/InsuranceProductService";
 import GenericList from "./GenericList";
@@ -37,6 +38,8 @@ const InsuranceProductViewPage = () => {
       .catch((error) => {
         console.error("Error fetching product details:", error);
         setIsLoading(false);
+        const serverMessage = error.response?.data?.message;
+        toast.error(`Failed to load product details: ${serverMessage}`);
       });
   }, [id]);
 
@@ -44,7 +47,11 @@ const InsuranceProductViewPage = () => {
   useEffect(() => {
     typesOfCovers()
       .then((response) => setCoverTypes(response.data))
-      .catch((error) => console.error("Error fetching cover types:", error));
+      .catch((error) => {
+        const serverMessage = error.response?.data?.message;
+        toast.error(`Failed to load cover types: ${serverMessage}`);
+        console.error("Failed to load cover types:", error);
+      });
   }, []);
 
   const handleAddCover = () => {
@@ -63,11 +70,16 @@ const InsuranceProductViewPage = () => {
         .then((response) => {
           console.log("Cover updated:", response.data);
           setCovers((prev) =>
-            prev.map((c) => (c.id === selectedCover.id ? response.data : c)),
+            prev.map((cover) =>
+              cover.id === selectedCover.id ? response.data : cover,
+            ),
           );
+          setIsCoverModalOpen(false);
         })
         .catch((error) => {
           console.error("Error updating cover:", error);
+          const serverMessage = error.response?.data?.message;
+          toast.error(`Failed to update cover: ${serverMessage}`);
         });
     } else {
       // add product id to the cover data so that the backend knows which product this cover belongs to
@@ -81,9 +93,12 @@ const InsuranceProductViewPage = () => {
           setCovers((prev) => [...prev, response.data]);
           setIsCoverModalOpen(false);
         })
-        .catch((error) => console.error("Error creating cover:", error));
+        .catch((error) => {
+          const serverMessage = error.response?.data?.message;
+          toast.error(`Failed to create cover: ${serverMessage}`);
+          console.error("Failed creating cover:", error);
+        });
     }
-    setIsCoverModalOpen(false);
   };
 
   const handleDeleteCoverClick = (cover) => {
@@ -95,10 +110,14 @@ const InsuranceProductViewPage = () => {
     deleteCover(selectedCover.id)
       .then((response) => {
         console.log("Cover deleted:", response.data);
-        setCovers((prev) => prev.filter((c) => c.id !== selectedCover.id));
+        setCovers((prev) =>
+          prev.filter((cover) => cover.id !== selectedCover.id),
+        );
       })
       .catch((error) => {
         console.error("Error deleting cover: " + selectedCover.id, error);
+        const serverMessage = error.response?.data?.message;
+        toast.error(`Failed to delete cover: ${serverMessage}`);
       });
     setIsConfirmCoverModalOpen(false);
   };
