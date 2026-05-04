@@ -10,6 +10,7 @@ import com.safehaven.backend.repository.CoverRepository;
 import com.safehaven.backend.repository.InsuranceProductRepository;
 import com.safehaven.backend.service.CoverService;
 import com.safehaven.backend.utilities.NameNormalizer;
+import com.safehaven.backend.utilities.Validators;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +26,7 @@ public class CoverServiceImpl implements CoverService
     {
         InsuranceProduct product = insuranceProductRepository.findById(coverDto.getInsuranceProductId())
                 .orElseThrow(() -> new ResourceNotFoundException("Insurance Product not found with id: " + coverDto.getInsuranceProductId()));
-        String normalizedName = validateCoverName(coverDto.getName());
+        String normalizedName = Validators.validateName(coverDto.getName(),coverRepository::existsByNormalizedName );
 
         Cover cover = CoverMapper.mapToCover(coverDto);
         cover.setNormalizedName(normalizedName);
@@ -45,7 +46,12 @@ public class CoverServiceImpl implements CoverService
 
         if (coverWithUpdates.getName() != null)
         {
-            cover.setNormalizedName(NameNormalizer.normalizeName(coverWithUpdates.getName()));
+			String normalizedName = Validators.validateNameWithId(
+                    coverWithUpdates.getName(),
+                    id,
+                    coverRepository::existsByNormalizedNameAndIdNot
+            );
+            cover.setNormalizedName(normalizedName);
         }
 
         CoverMapper.updateEntityFromDto(coverWithUpdates, cover);
@@ -61,16 +67,5 @@ public class CoverServiceImpl implements CoverService
                 .orElseThrow(() -> new ResourceNotFoundException("Cover not found with given id: " + id));
 
         coverRepository.deleteById(id);
-    }
-
-
-    private String validateCoverName(String name)
-    {
-        String normalizedName = NameNormalizer.normalizeName(name);
-        if (coverRepository.existsByNormalizedName(normalizedName))
-        {
-            throw new DuplicateNameException("Cover with name " + name + " already exists");
-        }
-        return normalizedName;
     }
 }

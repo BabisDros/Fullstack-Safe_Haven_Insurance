@@ -8,6 +8,7 @@ import com.safehaven.backend.mapper.InsuranceProductMapper;
 import com.safehaven.backend.repository.InsuranceProductRepository;
 import com.safehaven.backend.service.InsuranceProductService;
 import com.safehaven.backend.utilities.NameNormalizer;
+import com.safehaven.backend.utilities.Validators;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,14 +26,14 @@ public class InsuranceProductServiceImp implements InsuranceProductService
     {
         List<InsuranceProduct> products = productRepository.findAll();
 
-        return products.stream().map((product) -> InsuranceProductMapper.mapInsuranceProductToDto(product))
+        return products.stream().map(InsuranceProductMapper::mapInsuranceProductToDto)
                 .collect(Collectors.toList());
     }
 
     @Override
     public InsuranceProductDto createInsuranceProduct(InsuranceProductDto productDto)
     {
-        String normalizedName = validateProductName(productDto.getName());
+        String normalizedName = Validators.validateName(productDto.getName(),productRepository::existsByNormalizedName);
 
         InsuranceProduct product = InsuranceProductMapper.mapDtoToInsuranceProduct(productDto);
         product.setNormalizedName(normalizedName);
@@ -45,19 +46,26 @@ public class InsuranceProductServiceImp implements InsuranceProductService
     @Override
     public InsuranceProductDto getProductById(Long id)
     {
-        //it may
-        InsuranceProduct product = productRepository.findById(id).
-                orElseThrow(() -> new ResourceNotFoundException("product not found with given id"));
+        InsuranceProduct product = productRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("product not found with given id"));
         return InsuranceProductMapper.mapInsuranceProductToDto(product);
     }
 
     @Override
     public InsuranceProductDto updateInsuranceProduct(Long id, InsuranceProductDto productWithUpdates)
     {
-        InsuranceProduct product = productRepository.findById(id).
-                orElseThrow(() -> new ResourceNotFoundException("product not found with given id"));
+        InsuranceProduct product = productRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("product not found with given id"));
 
-        product.setNormalizedName(productWithUpdates.getName());
+        if (productWithUpdates.getName() != null)
+        {
+            String normalizedName = Validators.validateNameWithId(
+                    productWithUpdates.getName(),
+                    productWithUpdates.getId(),
+                    productRepository::existsByNormalizedNameAndIdNot
+            );
+            product.setNormalizedName(normalizedName);
+        }
 
         InsuranceProductMapper.updateEntityFromDto(productWithUpdates, product);
         InsuranceProduct updatedProduct = productRepository.save(product);
@@ -68,18 +76,9 @@ public class InsuranceProductServiceImp implements InsuranceProductService
     @Override
     public void deleteInsuranceProduct(Long id)
     {
-        productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("product not found with given id"));
+        productRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("product not found with given id"));
 
         productRepository.deleteById(id);
-    }
-
-    private String validateProductName(String name)
-    {
-        String normalizedName = NameNormalizer.normalizeName(name);
-        if (productRepository.existsByNormalizedName(normalizedName))
-        {
-            throw new DuplicateNameException("Product" + name + " already exist");
-        }
-        return normalizedName;
     }
 }
