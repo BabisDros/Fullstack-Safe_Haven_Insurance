@@ -5,8 +5,11 @@ import com.safehaven.backend.exception.DuplicateNameException;
 import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 
+
 public class Validators
 {
+    private static final String MESSAGE = "Entity with name '%s' already exists";
+
     public static String validateName(String name, Predicate<String> existsByName)
     {
 
@@ -14,7 +17,7 @@ public class Validators
 
         if (existsByName.test(normalizedName))
         {
-            throw new DuplicateNameException("Entity with name " + name + " already exists");
+            throw new DuplicateNameException(String.format(MESSAGE, name));
         }
 
         return normalizedName;
@@ -28,7 +31,7 @@ public class Validators
 
         if (existsByNameAndIdNot.test(normalizedName, currentId))
         {
-            throw new DuplicateNameException("Entity with name " + name + " already exists");
+            throw new DuplicateNameException(String.format(MESSAGE, name));
         }
 
         return normalizedName;
