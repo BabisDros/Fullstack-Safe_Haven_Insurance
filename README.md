@@ -1,6 +1,6 @@
 # fullstack-Safe_Haven_Insurance
 
-## Run in Docker 
+## Option 1 - Run in Docker 
 Prerequisites
 * Docker Desktop installed and running
 
@@ -15,7 +15,7 @@ Test will run automatically before build. If for some reason it fails (it should
 2. open `Docker` file
 3. follow the instructions
 
-## Manual Running
+## Option 2 - Manual Running
 ### Backend
 Prerequisites
 * installed jdk 21
@@ -39,5 +39,9 @@ Steps
 2. navigate to `fullstack-Safe_Haven_Insurance\safe-haven-frontend`and then run
 3. `npm install`
 4. `npm run dev`
-   
+  
+
+## Website Access
+
+http://localhost:3000/
 
