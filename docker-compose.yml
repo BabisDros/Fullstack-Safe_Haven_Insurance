@@ -7,7 +7,9 @@ services:
       - "8080:8080"
     networks:
       - safe-haven-network
-
+    environment:
+      - SPRING_H2_CONSOLE_SETTINGS_WEB_ALLOW_OTHERS=true
+      
   frontend-service:
     build:
       context: ./safe-haven-frontend
