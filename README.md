@@ -42,8 +42,8 @@ Steps
   
 
 ## Website Access
-
-http://localhost:3000/
+Wait 10 seconds to completely load and then click the link below. Else there will be errors.
+* http://localhost:3000/
 
 
 ## Database Access
