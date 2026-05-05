@@ -45,3 +45,12 @@ Steps
 
 http://localhost:3000/
 
+
+## Database Access
+Navigate to http://localhost:8080/h2-console
+
+Database Credentials
+* JDBC URL: `jdbc:h2:mem:SafeHavenDB`
+* Username: `tester`
+* No password
+
