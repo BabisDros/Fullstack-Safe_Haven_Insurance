@@ -1,0 +1,24 @@
+services:
+  backend-service:
+    build:
+      context: ./safe-haven-backend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    networks:
+      - safe-haven-network
+
+  frontend-service:
+    build:
+      context: ./safe-haven-frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend-service
+    networks:
+      - safe-haven-network
+
+networks:
+  safe-haven-network:
+    driver: bridge
