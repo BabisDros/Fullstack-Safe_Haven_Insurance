@@ -11,6 +11,7 @@ import {
   deleteCover,
   typesOfCovers,
 } from "../services/CoverService";
+import { getLabelFromType } from "../utilities/utilities";
 
 const InsuranceProductViewPage = () => {
   const { id } = useParams();
@@ -187,12 +188,23 @@ const InsuranceProductViewPage = () => {
               onEdit={handleEditCover}
               onDelete={handleDeleteCoverClick}
               renderItemDetails={(cover) => (
-                <div>
-                  <h3 className="h6 fw-bold mb-0">{cover.name}</h3>
-                  <p>Type: {cover.type}</p>
-                  <p>Description: {cover.description}</p>
-                  <div>Limit: €{cover.limit}</div>
-                </div>
+                <section>
+                  <header className="mb-4">
+                    <h3 className="h6 fw-bold text-uppercase text-underline mb-0">
+                      {cover.name}
+                    </h3>
+                  </header>
+                  <dl>
+                    <dt className="h7">Type</dt>
+                    <dd>{getLabelFromType(cover.type, coverTypes)}</dd>
+                    <dt className="h7" fw-bold>
+                      Description
+                    </dt>
+                    <dd>{cover.description}</dd>
+                    <dt className="h7">Limit</dt>
+                    <dd>€{cover.limit}</dd>
+                  </dl>
+                </section>
               )}
             />
 

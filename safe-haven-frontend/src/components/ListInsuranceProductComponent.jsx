@@ -12,7 +12,7 @@ import ConfirmationModal from "./ConfirmationModal";
 import { useNavigate } from "react-router-dom";
 import GenericList from "./GenericList";
 import { typesOfInsuranceProducts } from "../services/InsuranceProductService";
-
+import { getLabelFromType } from "../utilities/utilities";
 const dummyInsuranceProducts = [
   {
     id: 1,
@@ -200,21 +200,33 @@ const ListInsuranceProductComponent = () => {
         onDelete={handleDeleteClick}
         onViewDetails={handleViewDetails}
         renderItemDetails={(product) => (
-          <div>
-            <h3 className="h6 fw-bold mb-0">{product.name}</h3>
-            <p className={product.active ? "text-success" : "text-danger"}>
-              {product.active ? "Active" : "Inactive"}
-            </p>
-            <div>Base Premium: €{product.basePremium.toFixed(2)}</div>
-          </div>
+          <article>
+            <header className="mb-4">
+              <h3 className="h6 fw-bold text-uppercase mb-0">{product.name}</h3>
+              <p
+                className={`h6 fw-bold ${product.active ? "text-success" : "text-danger"}`}
+              >
+                {product.active ? "Active" : "Inactive"}
+              </p>
+            </header>
+            <dl>
+              <dt className="h7"> Type</dt>
+              <dd>
+                {/* show typ label instead of value. */}
+                {getLabelFromType(product.type, productTypes)}
+              </dd>
+              <dt className="h7">Base Premium</dt>
+              <dd>€{product.basePremium.toFixed(2)}</dd>
+            </dl>
+          </article>
         )}
       />
 
       {isProductModalOpen && (
-        //adding key to resete state. https://react.dev/learn/preserving-and-resetting-state
+        // adding key to resete state. https://react.dev/learn/preserving-and-resetting-state
         <GenericFormModal
           key={
-            //Using prefix because covers and products can have the same id .
+            // Using prefix because covers and products can have the same id .
 
             selectedProduct ? `product-${selectedProduct.id}` : "new_product"
           }
