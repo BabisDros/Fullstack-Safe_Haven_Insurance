@@ -4,6 +4,7 @@ public class NameNormalizer
 {
     public static String normalizeName(String name)
     {
-        return name.toLowerCase().replaceAll("[^a-z0-9]", "");
+        //replace any character and number in any language with empty string, to make one continuous word
+        return name.toLowerCase().replaceAll("[^\\p{L}\\p{N}]", "");
     }
 }
