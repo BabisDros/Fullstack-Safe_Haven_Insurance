@@ -200,7 +200,7 @@ const ListInsuranceProductComponent = () => {
         onDelete={handleDeleteClick}
         onViewDetails={handleViewDetails}
         renderItemDetails={(product) => (
-          <article>
+          <section>
             <header className="mb-4">
               <h3 className="h6 fw-bold text-uppercase mb-0">{product.name}</h3>
               <p
@@ -218,7 +218,7 @@ const ListInsuranceProductComponent = () => {
               <dt className="h7">Base Premium</dt>
               <dd>€{product.basePremium.toFixed(2)}</dd>
             </dl>
-          </article>
+          </section>
         )}
       />
 
