@@ -90,17 +90,14 @@ class CoverControllerIntegrationTest
                     .andExpect(jsonPath("$.limit").value(10.0));
         }
 
-        @DisplayName("Should Throw 409 when a Cover with the name that already exists in database")
+        @DisplayName("Should Throw 409 when a Cover with the same name exists in database")
         @Test
-        void shouldReturn409() throws Exception
+        void shouldThrowExceptionWhenDuplicateName() throws Exception
         {
-            //set id that doesnt exist in database. 0  will never be assign from database, it starts from 1
-            coverDto.setInsuranceProductId(0L);
-
             mockMvc.perform(post("/api/covers")
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(objectMapper.writeValueAsString(coverDto)))
-                    .andExpect(status().isNotFound());
+                    .andExpect(status().isConflict());
         }
 
         @DisplayName("Should Throw 404 when a cover with no Product id is given and there isn't in database")
