@@ -127,8 +127,9 @@ class CoverServiceImplTest
         @Test
         void shouldThrowExceptionWhenCoverNotFound()
         {
+            //given
             Long coverId = 2L;
-            when(coverRepository.findById(coverId)).thenReturn(Optional.empty());
+            when(coverRepository.findById(coverId)).thenReturn(Optional.empty());//return empty to triigger ResourceNotFoundException
 
             //when, then
             assertThrows(ResourceNotFoundException.class, () -> {
@@ -145,7 +146,16 @@ class CoverServiceImplTest
         @Test
         void shouldDeleteCoverSuccessfully()
         {
+            //given
+            Long coverId = 2L;
+            when(coverRepository.findById(coverId)).thenReturn(Optional.of(cover));
 
+            //when
+            coverService.deleteCover(coverId);
+
+            //then
+            verify(coverRepository).findById(coverId);
+            verify(coverRepository).deleteById(coverId);
         }
     }
 
