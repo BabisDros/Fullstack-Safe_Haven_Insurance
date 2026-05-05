@@ -56,7 +56,6 @@ class CoverServiceImplTest
         this.product.setName("Health Plan");
 
         this.cover = new Cover();
-        this.cover.setId(2L);
         this.cover.setName("test");
         this.cover.setType(CoverType.BAGGAGE);
         this.cover.setLimit(new BigDecimal("100"));
@@ -170,6 +169,4 @@ class CoverServiceImplTest
         verify(coverRepository).existsByNormalizedName(anyString());
         verify(coverRepository, never()).save(any());
     }
-
-
 }
