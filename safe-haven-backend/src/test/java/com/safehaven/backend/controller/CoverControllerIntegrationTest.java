@@ -18,7 +18,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.transaction.annotation.Transactional;
 import tools.jackson.databind.ObjectMapper;
 
 import java.math.BigDecimal;
@@ -29,7 +28,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@Transactional
 class CoverControllerIntegrationTest
 {
     @Autowired
@@ -100,9 +98,9 @@ class CoverControllerIntegrationTest
                     .andExpect(status().isConflict());
         }
 
-        @DisplayName("Should Throw 404 when a cover with no Product id is given and there isn't in database")
+        @DisplayName("Should Throw 404 when a cover with a Product id not existing in the database")
         @Test
-        void shouldReturn404() throws Exception
+        void shouldThrowExceptionWhenProductNotFound() throws Exception
         {
             //set id that doesnt exist in database. 0  will never be assign from database, it starts from 1
             coverDto.setInsuranceProductId(0L);
@@ -144,7 +142,7 @@ class CoverControllerIntegrationTest
                     .andExpect(jsonPath("$.description").value(updatedDescription));
         }
 
-        @DisplayName("Should Throw 404 when a cover with a non existing id is given to the database")
+        @DisplayName("Should Throw 404 when a cover with a non existing id is given")
         @Test
         void shouldThrowExceptionWhenCoverNotFound() throws Exception
         {
@@ -162,7 +160,7 @@ class CoverControllerIntegrationTest
         void shouldThrowExceptionWhenDuplicateName() throws Exception
         {
             Cover cover = CoverMapper.mapToCover(coverDto);
-            cover.setNormalizedName(NameNormalizer.normalizeName(coverDto.getName()));
+            cover.setNormalizedName(NameNormalizer.normalizeName("New cover"));
             cover.setProduct(savedProduct);  //add foreign key
             Cover sameNameCover = coverRepository.save(cover);
 
@@ -185,7 +183,7 @@ class CoverControllerIntegrationTest
                     .andExpect(status().isOk());
         }
 
-        @DisplayName("Should Throw 404 when a cover with a non existing id is given to the database")
+        @DisplayName("Should Throw 404 when a cover with a non existing id is given")
         @Test
         void shouldThrowExceptionWhenCoverNotFound() throws Exception
         {
