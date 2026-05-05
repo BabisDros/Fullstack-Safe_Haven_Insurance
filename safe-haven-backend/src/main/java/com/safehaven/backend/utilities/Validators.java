@@ -7,24 +7,27 @@ import java.util.function.Predicate;
 
 public class Validators
 {
-    public static String validateName(String name,Predicate<String> existsByName) {
+    public static String validateName(String name, Predicate<String> existsByName)
+    {
 
         String normalizedName = NameNormalizer.normalizeName(name);
 
-        if (existsByName.test(normalizedName)) {
+        if (existsByName.test(normalizedName))
+        {
             throw new DuplicateNameException("Entity with name " + name + " already exists");
         }
 
         return normalizedName;
     }
 
-    public static String validateNameWithId(String name,Long currentId,
+    public static String validateNameWithId(String name, Long currentId,
                                             BiPredicate<String, Long> existsByNameAndIdNot)
     {
 
         String normalizedName = NameNormalizer.normalizeName(name);
 
-        if (existsByNameAndIdNot.test(normalizedName, currentId)) {
+        if (existsByNameAndIdNot.test(normalizedName, currentId))
+        {
             throw new DuplicateNameException("Entity with name " + name + " already exists");
         }
 

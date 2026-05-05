@@ -3,13 +3,11 @@ package com.safehaven.backend.service.implementation;
 import com.safehaven.backend.dto.CoverDto;
 import com.safehaven.backend.entity.Cover;
 import com.safehaven.backend.entity.InsuranceProduct;
-import com.safehaven.backend.exception.DuplicateNameException;
 import com.safehaven.backend.exception.ResourceNotFoundException;
 import com.safehaven.backend.mapper.CoverMapper;
 import com.safehaven.backend.repository.CoverRepository;
 import com.safehaven.backend.repository.InsuranceProductRepository;
 import com.safehaven.backend.service.CoverService;
-import com.safehaven.backend.utilities.NameNormalizer;
 import com.safehaven.backend.utilities.Validators;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,7 +24,7 @@ public class CoverServiceImpl implements CoverService
     {
         InsuranceProduct product = insuranceProductRepository.findById(coverDto.getInsuranceProductId())
                 .orElseThrow(() -> new ResourceNotFoundException("Insurance Product not found with id: " + coverDto.getInsuranceProductId()));
-        String normalizedName = Validators.validateName(coverDto.getName(),coverRepository::existsByNormalizedName );
+        String normalizedName = Validators.validateName(coverDto.getName(), coverRepository::existsByNormalizedName);
 
         Cover cover = CoverMapper.mapToCover(coverDto);
         cover.setNormalizedName(normalizedName);
@@ -46,7 +44,7 @@ public class CoverServiceImpl implements CoverService
 
         if (coverWithUpdates.getName() != null)
         {
-			String normalizedName = Validators.validateNameWithId(
+            String normalizedName = Validators.validateNameWithId(
                     coverWithUpdates.getName(),
                     id,
                     coverRepository::existsByNormalizedNameAndIdNot

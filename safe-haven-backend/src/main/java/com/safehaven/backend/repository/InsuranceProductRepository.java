@@ -7,5 +7,6 @@ public interface InsuranceProductRepository extends JpaRepository<InsuranceProdu
 {
     //Spring Data JPA Will create the query automatically with exists for normalizedName (same name as field in entity)
     boolean existsByNormalizedName(String normalizedName);
+
     boolean existsByNormalizedNameAndIdNot(String normalizedName, Long id);
 }

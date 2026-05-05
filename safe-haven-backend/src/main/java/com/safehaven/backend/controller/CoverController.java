@@ -2,14 +2,12 @@ package com.safehaven.backend.controller;
 
 import com.safehaven.backend.dto.CoverDto;
 import com.safehaven.backend.entity.CoverType;
-import com.safehaven.backend.entity.ProductType;
 import com.safehaven.backend.service.CoverService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @AllArgsConstructor
 @RestController

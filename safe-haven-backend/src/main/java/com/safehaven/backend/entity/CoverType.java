@@ -7,7 +7,8 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum CoverType {
+public enum CoverType
+{
     MEDICAL("Medical"),
     BAGGAGE("Baggage"),
     LIABILITY("Liability"),
@@ -18,7 +19,8 @@ public enum CoverType {
 
     private final String label;
 
-    public String getValue() {
+    public String getValue()
+    {
         return name();
     }
 }

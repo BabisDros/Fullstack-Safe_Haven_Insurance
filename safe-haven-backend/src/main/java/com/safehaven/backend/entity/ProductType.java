@@ -7,7 +7,9 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum ProductType {
+
+public enum ProductType
+{
     LIFE("Life insurance"),
     HOME("Home insurance"),
     TRAVEL("Travel Insurance"),

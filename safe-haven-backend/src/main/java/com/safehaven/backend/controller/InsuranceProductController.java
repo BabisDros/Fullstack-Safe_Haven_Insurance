@@ -56,7 +56,8 @@ public class InsuranceProductController
     }
 
     @GetMapping("types")
-    public ResponseEntity<ProductType[]> getProductTypes() {
+    public ResponseEntity<ProductType[]> getProductTypes()
+    {
         return ResponseEntity.ok(ProductType.values());
     }
 }
