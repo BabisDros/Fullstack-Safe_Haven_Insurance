@@ -24,7 +24,7 @@ This project is an internal, web-based admin panel designed for the fictional Sa
 * **UI**: A clean, functional admin layout using Bootstrap 5 framework.
 
 ### Testing & Tools
-* **Unit Tests**: Partial test coverage for the service and controller layers using JUnit 6 and Mockito.
+* **Unit Tests**: Partial test coverage for the service and controller layers using JUnit 6 and Mockito for unit tests, MockMvc and SpringBootTest for integration tests.
 * **API Verification**: Functional testing performed via **Postman**. 
 
 ---
