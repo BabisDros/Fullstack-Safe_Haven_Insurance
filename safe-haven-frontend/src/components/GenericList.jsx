@@ -9,7 +9,7 @@ const GenericList = ({
   onViewDetails,
   onEdit,
   onDelete,
-  renderItemDetails, // custmom render function for item details
+  renderItemDetails, // custom render function for item details
 }) => {
   return (
     <div className="container mt-5">

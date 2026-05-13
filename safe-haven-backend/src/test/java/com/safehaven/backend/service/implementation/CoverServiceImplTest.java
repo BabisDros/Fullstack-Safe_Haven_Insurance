@@ -96,7 +96,7 @@ class CoverServiceImplTest
             coverDto.setInsuranceProductId(productId);
             when(insuranceProductRepository.findById(productId)).thenReturn(Optional.empty());
 
-            //when, the
+            //when, then
             assertThrows(ResourceNotFoundException.class, () -> {
                 coverService.createCover(coverDto);
             });

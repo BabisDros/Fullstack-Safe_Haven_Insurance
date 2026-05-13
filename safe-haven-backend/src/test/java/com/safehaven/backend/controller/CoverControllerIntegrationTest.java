@@ -102,7 +102,7 @@ class CoverControllerIntegrationTest
         @Test
         void shouldThrowExceptionWhenProductNotFound() throws Exception
         {
-            //set id that doesnt exist in database. 0  will never be assign from database, it starts from 1
+            //set id that doesnt exist in database. 0  will never be assigned from database, it starts from 1
             coverDto.setInsuranceProductId(0L);
 
             mockMvc.perform(post("/api/covers")

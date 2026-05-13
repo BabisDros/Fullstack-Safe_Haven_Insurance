@@ -115,7 +115,6 @@ const ListInsuranceProductComponent = () => {
       });
     setIsConfirmModalOpen(false);
   };
-  //============== Handlers End=================
 
   //============== useEffect Start=================
 
@@ -212,7 +211,7 @@ const ListInsuranceProductComponent = () => {
             <dl>
               <dt className="h7"> Type</dt>
               <dd>
-                {/* show typ label instead of value. */}
+                {/* show type label instead of value. */}
                 {getLabelFromType(product.type, productTypes)}
               </dd>
               <dt className="h7">Base Premium</dt>
@@ -223,7 +222,7 @@ const ListInsuranceProductComponent = () => {
       />
 
       {isProductModalOpen && (
-        // adding key to resete state. https://react.dev/learn/preserving-and-resetting-state
+        // adding key to reset state. https://react.dev/learn/preserving-and-resetting-state
         <GenericFormModal
           key={
             // Using prefix because covers and products can have the same id .
